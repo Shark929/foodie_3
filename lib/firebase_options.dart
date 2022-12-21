@@ -44,39 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA06XyEpbxTbauRjmER0DAEbqZJH9627PI',
-    appId: '1:156449332321:web:021bdbc38da5a409a55e20',
-    messagingSenderId: '156449332321',
-    projectId: 'foodie-363010',
-    authDomain: 'foodie-363010.firebaseapp.com',
-    storageBucket: 'foodie-363010.appspot.com',
+    apiKey: 'AIzaSyCTHqRcqM-SUQpTaqdFjwu5EkFC95jaOOY',
+    appId: '1:216134536345:web:64ef3f0acf3e5e64e43c08',
+    messagingSenderId: '216134536345',
+    projectId: 'foodie3-2cbfd',
+    authDomain: 'foodie3-2cbfd.firebaseapp.com',
+    storageBucket: 'foodie3-2cbfd.appspot.com',
+    measurementId: 'G-9DZ1MPVV9M',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDXVosFUW9LFfAlX5hyDL1BCz1aASXAbOc',
-    appId: '1:156449332321:android:b0078debeaa2dcc2a55e20',
-    messagingSenderId: '156449332321',
-    projectId: 'foodie-363010',
-    storageBucket: 'foodie-363010.appspot.com',
+    apiKey: 'AIzaSyC5vcxeEcZkDCKmXDlQqAtKjwPfHu8DoAc',
+    appId: '1:216134536345:android:6e592d8a3e33a7c2e43c08',
+    messagingSenderId: '216134536345',
+    projectId: 'foodie3-2cbfd',
+    storageBucket: 'foodie3-2cbfd.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDCrWamEkbdHtHH_X2Zhpalz5B9BfZANMI',
-    appId: '1:156449332321:ios:30ceb1432cdfadafa55e20',
-    messagingSenderId: '156449332321',
-    projectId: 'foodie-363010',
-    storageBucket: 'foodie-363010.appspot.com',
-    iosClientId: '156449332321-sj1fmo132m5g4gvm0m4fl6oplcmruapf.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAuCR2L6z9Y2iIpXllVvcAI07f15DSRdGQ',
+    appId: '1:216134536345:ios:bdeb027ec9eac033e43c08',
+    messagingSenderId: '216134536345',
+    projectId: 'foodie3-2cbfd',
+    storageBucket: 'foodie3-2cbfd.appspot.com',
+    iosClientId: '216134536345-ugt2mcpv2fc56r05i4cahb32e1qud21f.apps.googleusercontent.com',
     iosBundleId: 'com.example.foodie3',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDCrWamEkbdHtHH_X2Zhpalz5B9BfZANMI',
-    appId: '1:156449332321:ios:30ceb1432cdfadafa55e20',
-    messagingSenderId: '156449332321',
-    projectId: 'foodie-363010',
-    storageBucket: 'foodie-363010.appspot.com',
-    iosClientId: '156449332321-sj1fmo132m5g4gvm0m4fl6oplcmruapf.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAuCR2L6z9Y2iIpXllVvcAI07f15DSRdGQ',
+    appId: '1:216134536345:ios:bdeb027ec9eac033e43c08',
+    messagingSenderId: '216134536345',
+    projectId: 'foodie3-2cbfd',
+    storageBucket: 'foodie3-2cbfd.appspot.com',
+    iosClientId: '216134536345-ugt2mcpv2fc56r05i4cahb32e1qud21f.apps.googleusercontent.com',
     iosBundleId: 'com.example.foodie3',
   );
 }

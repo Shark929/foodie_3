@@ -137,26 +137,95 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                                           const SizedBox(
                                             width: 16,
                                           ),
-                                          InkWell(
-                                            onTap: () async {
-                                              snapshot
-                                                  .data!.docs[index].reference
-                                                  .update({
-                                                "cart_code": "6",
-                                              });
-                                            },
-                                            child: Container(
-                                              width: 60,
-                                              height: 30,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: const Text("Cancel"),
-                                            ),
-                                          ),
+                                          StreamBuilder(
+                                              stream: FirebaseFirestore.instance
+                                                  .collection("Wallet")
+                                                  .snapshots(),
+                                              builder: (context, snapshot11) {
+                                                if (snapshot11.hasData) {
+                                                  return InkWell(
+                                                    onTap: () async {
+                                                      snapshot.data!.docs[index]
+                                                          .reference
+                                                          .update({
+                                                        "cart_code": "6",
+                                                      });
+
+                                                      DateTime now =
+                                                          DateTime.now();
+
+                                                      double updateBalance =
+                                                          0.0;
+                                                      /**
+                                                       * Vendor cancel order
+                                                       * total_price refunded back to user
+                                                       */
+                                                      for (int i = 0;
+                                                          i <
+                                                              snapshot11.data!
+                                                                  .docs.length;
+                                                          i++) {
+                                                        if (snapshot11.data!
+                                                                    .docs[i]
+                                                                ['username'] ==
+                                                            snapshot.data!
+                                                                    .docs[index]
+                                                                ['username']) {
+                                                          updateBalance = double
+                                                                  .parse(snapshot11
+                                                                          .data!
+                                                                          .docs[i]
+                                                                      [
+                                                                      'balance']) +
+                                                              double.parse(snapshot
+                                                                          .data!
+                                                                          .docs[
+                                                                      index][
+                                                                  'total_price']);
+
+                                                          snapshot11.data!
+                                                              .docs[i].reference
+                                                              .update({
+                                                            "balance": updateBalance
+                                                                .toStringAsFixed(
+                                                                    2),
+                                                          });
+                                                        }
+                                                      }
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              "Transactions")
+                                                          .add({
+                                                        "amount": snapshot.data!
+                                                                .docs[index]
+                                                            ['total_price'],
+                                                        "date":
+                                                            "${now.day}/${now.month}/${now.year} ${now.hour}:${now.minute}",
+                                                        "type": "4",
+                                                        "username": snapshot
+                                                                .data!
+                                                                .docs[index]
+                                                            ['username'],
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      width: 60,
+                                                      height: 30,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child:
+                                                          const Text("Cancel"),
+                                                    ),
+                                                  );
+                                                }
+                                                return const SizedBox();
+                                              })
                                         ],
                                       )
                                     : snapshot.data!.docs[index]['cart_code'] ==

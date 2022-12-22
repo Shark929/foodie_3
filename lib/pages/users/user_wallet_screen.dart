@@ -214,6 +214,7 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                                            * 1 - top up
                                            * 2 - withdrawal
                                            * 3 - foods
+                                           * 4 - refund
                                            */
                                               snapshot.data!.docs[index]
                                                           ['type'] ==
@@ -233,12 +234,24 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                                                           height: 35,
                                                           color: Colors.red,
                                                         )
-                                                      : Image.asset(
-                                                          "assets/dish.png",
-                                                          width: 35,
-                                                          height: 35,
-                                                          color: Colors.amber,
-                                                        ),
+                                                      : snapshot.data!.docs[
+                                                                      index]
+                                                                  ['type'] ==
+                                                              "3"
+                                                          ? Image.asset(
+                                                              "assets/dish.png",
+                                                              width: 35,
+                                                              height: 35,
+                                                              color:
+                                                                  Colors.amber,
+                                                            )
+                                                          : Image.asset(
+                                                              "assets/cashback.png",
+                                                              width: 35,
+                                                              height: 35,
+                                                              color:
+                                                                  Colors.blue,
+                                                            ),
                                               const SizedBox(
                                                 width: 8,
                                               ),
@@ -259,7 +272,13 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                                                                   ['type'] ==
                                                               "2"
                                                           ? "Withdrawal"
-                                                          : "Foods"),
+                                                          : snapshot.data!.docs[
+                                                                          index]
+                                                                      [
+                                                                      'type'] ==
+                                                                  "3"
+                                                              ? "Foods"
+                                                              : "Refund"),
                                                   Text(snapshot.data!
                                                       .docs[index]['date']),
                                                 ],

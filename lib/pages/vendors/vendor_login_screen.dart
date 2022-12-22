@@ -4,6 +4,7 @@ import 'package:foodie_3/components/button_component1.dart';
 import 'package:foodie_3/components/text_input_component.dart';
 import 'package:foodie_3/constants/constant.dart';
 import 'package:foodie_3/pages/vendors/vendor_change_password_screen.dart';
+import 'package:foodie_3/pages/vendors/vendor_forgot_password_screen.dart';
 import 'package:foodie_3/pages/vendors/vendor_home_screen.dart';
 
 class VendorLoginScreen extends StatefulWidget {
@@ -160,12 +161,21 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
             const SizedBox(
               height: 16,
             ),
-            Container(
-                alignment: Alignment.center,
-                child: const Text(
-                  "Forgot password",
-                  style: TextStyle(color: Colors.orange),
-                )),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const VendorForgotPassword()),
+                );
+              },
+              child: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "Forgot password",
+                    style: TextStyle(color: Colors.orange),
+                  )),
+            ),
           ]),
         ),
       ),

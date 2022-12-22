@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:foodie_3/constants/constant.dart';
 import 'package:foodie_3/pages/vendors/vendor_dashboard.dart';
 import 'package:foodie_3/pages/vendors/vendor_menu_screen.dart';
 import 'package:foodie_3/pages/vendors/vendor_order_screen.dart';
 import 'package:foodie_3/pages/vendors/vendor_profile_screen.dart';
+import 'package:foodie_3/pages/vendors/vendor_wallet_screen.dart';
 
 class VendorHomeScreen extends StatefulWidget {
   final String vendorUsername;
@@ -15,7 +15,7 @@ class VendorHomeScreen extends StatefulWidget {
 }
 
 class _VendorHomeScreenState extends State<VendorHomeScreen> {
-  int _selectedIndex = 4;
+  int _selectedIndex = 0;
   VendorLogin vl = VendorLogin();
 
   void _onItemTapped(int index) {
@@ -26,7 +26,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _widgetOptions = <Widget>[
+    List<Widget> widgetOptions = <Widget>[
       VendorDashboard(
         vendorUsername: widget.vendorUsername,
       ),
@@ -36,8 +36,8 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
       VendorMenuScreen(
         vendorUsername: widget.vendorUsername,
       ),
-      const Text(
-        'Index 2: School',
+      VendorWalletScreen(
+        vendorUsername: widget.vendorUsername,
       ),
       VendorProfileScreen(
         vendorUsername: widget.vendorUsername,
@@ -54,7 +54,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: SafeArea(child: widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

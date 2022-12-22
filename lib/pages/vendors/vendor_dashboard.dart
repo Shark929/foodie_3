@@ -36,23 +36,27 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 int numberOfCustomers = 0;
                 int totalOrders = 0; // total orders will get from quantity
                 double dineInNumber = 0.0;
-                double takeawayNumber = 0.0;
                 double dineInPercentage = 0.0;
                 double takeawayPercentage = 0.0;
                 //calculate total daily sales
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['day'] == now.day.toString() &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                              widget.vendorUsername &&
+                          snapshot.data!.docs[i]['day'] == now.day.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "0" ||
-                      snapshot.data!.docs[i]['day'] == now.day.toString() &&
+                      snapshot.data!.docs[i]['month'] == now.day.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "6") {
                     dailySales +=
                         double.parse(snapshot.data!.docs[i]['total_price']);
                   }
-                  print("total daily sales: $dailySales");
+                  print("total ${now.day} sales: $dailySales");
                 }
                 //calculate total monthly sales
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['month'] == now.month.toString() &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                              widget.vendorUsername &&
+                          snapshot.data!.docs[i]['month'] ==
+                              now.month.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "0" ||
                       snapshot.data!.docs[i]['month'] == now.month.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "6") {
@@ -63,7 +67,10 @@ class _VendorDashboardState extends State<VendorDashboard> {
                 }
                 //calculate total yearly sales
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['year'] == now.year.toString() &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                              widget.vendorUsername &&
+                          snapshot.data!.docs[i]['year'] ==
+                              now.year.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "0" ||
                       snapshot.data!.docs[i]['year'] == now.year.toString() &&
                           snapshot.data!.docs[i]['cart_code'] != "6") {
@@ -84,7 +91,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
                 //calculate total customers
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['cart_code'] != "0" &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                          widget.vendorUsername &&
+                      snapshot.data!.docs[i]['cart_code'] != "0" &&
                       snapshot.data!.docs[i]['cart_code'] != "6") {
                     numberOfCustomers++;
                   }
@@ -93,7 +102,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
                 //calculate total orders
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['cart_code'] != "0" &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                          widget.vendorUsername &&
+                      snapshot.data!.docs[i]['cart_code'] != "0" &&
                       snapshot.data!.docs[i]['cart_code'] != "6") {
                     totalOrders += int.parse(
                         snapshot.data!.docs[i]['quantity'].toString());
@@ -103,7 +114,9 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
                 //calculate dineInPercentage
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if (snapshot.data!.docs[i]['cart_code'] != "0" &&
+                  if (snapshot.data!.docs[i]['vendor'] ==
+                          widget.vendorUsername &&
+                      snapshot.data!.docs[i]['cart_code'] != "0" &&
                       snapshot.data!.docs[i]['cart_code'] != "6" &&
                       snapshot.data!.docs[i]['dine_in_code'] == "1") {
                     dineInNumber++;

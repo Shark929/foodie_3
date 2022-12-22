@@ -95,6 +95,7 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                                               setState(() {
                                                 isAccepted = true;
                                               });
+
                                               /**
                                                * here is the vendor accept order button
                                                * cart_code should be updated from 3 to 3
@@ -105,6 +106,21 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                                                   .update({
                                                 "cart_code": "3",
                                               });
+
+                                              /**
+                                               * Once order accepted by vendor,
+                                               * total_price will be added into vendorwallet database
+                                               */
+
+                                              FirebaseFirestore.instance
+                                                  .collection("VendorWallet")
+                                                  .add({
+                                                "username":
+                                                    widget.vendorUsername,
+                                                "balance": snapshot.data!
+                                                    .docs[index]['total_price'],
+                                              });
+                                              print("done");
                                             },
                                             child: Container(
                                               width: 60,

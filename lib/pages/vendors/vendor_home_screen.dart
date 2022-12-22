@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:foodie_3/constants/constant.dart';
 import 'package:foodie_3/pages/vendors/vendor_dashboard.dart';
@@ -14,7 +15,7 @@ class VendorHomeScreen extends StatefulWidget {
 }
 
 class _VendorHomeScreenState extends State<VendorHomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 4;
   VendorLogin vl = VendorLogin();
 
   void _onItemTapped(int index) {
@@ -26,14 +27,16 @@ class _VendorHomeScreenState extends State<VendorHomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-      VendorDashboard(),
+      VendorDashboard(
+        vendorUsername: widget.vendorUsername,
+      ),
       VendorOrderScreen(
         vendorUsername: widget.vendorUsername,
       ),
       VendorMenuScreen(
         vendorUsername: widget.vendorUsername,
       ),
-      Text(
+      const Text(
         'Index 2: School',
       ),
       VendorProfileScreen(

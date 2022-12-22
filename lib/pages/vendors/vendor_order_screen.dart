@@ -21,12 +21,10 @@ class VendorOrderScreen extends StatefulWidget {
  * 6. vendor cancel order
  */
 class _VendorOrderScreenState extends State<VendorOrderScreen> {
-  late final LocalNotificationService service;
-
+  bool isAccepted = false;
+  bool isCompleted = false;
   @override
   void initState() {
-    service = LocalNotificationService();
-    service.initialize();
     super.initState();
   }
 
@@ -49,9 +47,11 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                       itemBuilder: (context, index) {
                         if (snapshot.data!.docs[index]['vendor'] ==
                                 widget.vendorUsername &&
-                            snapshot.data!.docs[index]['cart_code'] != "1" &&
-                            snapshot.data!.docs[index]['cart_code'] != "0" &&
-                            snapshot.data!.docs[index]['cart_code'] != "6") {
+                            (snapshot.data!.docs[index]['cart_code'] != "1" &&
+                                snapshot.data!.docs[index]['cart_code'] !=
+                                    "0" &&
+                                snapshot.data!.docs[index]['cart_code'] !=
+                                    "6")) {
                           return Container(
                             alignment: Alignment.center,
                             margin: const EdgeInsets.only(bottom: 16),
@@ -75,56 +75,141 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                     Text(snapshot.data!.docs[index]['choice']),
-                                    Text(snapshot.data!.docs[index]['quantity']
-                                        .toString()),
-                                    Text(snapshot.data!.docs[index]['price']),
+                                    Text(
+                                        "x${snapshot.data!.docs[index]['quantity'].toString()}"),
+                                    Text(
+                                        "RM ${snapshot.data!.docs[index]['price']}"),
                                   ],
                                 ),
                                 const Spacer(),
-                                InkWell(
-                                  onTap: () {
-                                    /**
-                                     * here is the vendor accept order button
-                                     * cart_code should be updated from 3 to 3
-                                     */
+                                snapshot.data!.docs[index]['cart_code'] == "2"
+                                    ? Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              /**
+                                               * if Accepted == true,
+                                               * then button will be changed
+                                               */
 
-                                    snapshot.data!.docs[index].reference
-                                        .update({
-                                      "cart_code": "3",
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 60,
-                                    height: 30,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: const Text("Accept"),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    snapshot.data!.docs[index].reference
-                                        .update({
-                                      "cart_code": "6",
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 60,
-                                    height: 30,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: const Text("Cancel"),
-                                  ),
-                                ),
+                                              setState(() {
+                                                isAccepted = true;
+                                              });
+                                              /**
+                                               * here is the vendor accept order button
+                                               * cart_code should be updated from 3 to 3
+                                               */
+
+                                              snapshot
+                                                  .data!.docs[index].reference
+                                                  .update({
+                                                "cart_code": "3",
+                                              });
+                                            },
+                                            child: Container(
+                                              width: 60,
+                                              height: 30,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: const Text("Accept"),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          InkWell(
+                                            onTap: () async {
+                                              snapshot
+                                                  .data!.docs[index].reference
+                                                  .update({
+                                                "cart_code": "6",
+                                              });
+                                            },
+                                            child: Container(
+                                              width: 60,
+                                              height: 30,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: const Text("Cancel"),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : snapshot.data!.docs[index]['cart_code'] ==
+                                            "3"
+                                        ? InkWell(
+                                            onTap: () async {
+                                              setState(() {
+                                                isCompleted = true;
+                                              });
+                                              // * 4. vendor prepare order
+                                              snapshot
+                                                  .data!.docs[index].reference
+                                                  .update({
+                                                "cart_code": "4",
+                                              });
+                                            },
+                                            child: Container(
+                                              width: 70,
+                                              height: 30,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: const Text("Preparing"),
+                                            ),
+                                          )
+                                        : snapshot.data!.docs[index]
+                                                    ['cart_code'] ==
+                                                "4"
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  // * 4. vendor prepare order
+                                                  snapshot.data!.docs[index]
+                                                      .reference
+                                                      .update({
+                                                    "cart_code": "5",
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width: 70,
+                                                  height: 30,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.amber,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  child:
+                                                      const Text("Completed"),
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 80,
+                                                height: 30,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.green),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: const Text("Completed"),
+                                              ),
                               ],
                             ),
                           );
@@ -132,9 +217,7 @@ class _VendorOrderScreenState extends State<VendorOrderScreen> {
                             "6") {
                           return const SizedBox();
                         }
-                        return const Center(
-                          child: Text("There is no order at the moment"),
-                        );
+                        return const SizedBox();
                       });
                 }
                 return const SizedBox();

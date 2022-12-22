@@ -252,12 +252,14 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                         .collection("Vendor")
                         .doc(shopNameController.text)
                         .set({
+                      "is_first_time": "1",
                       "shop_name": shopNameController.text,
                       "shop_bio": shopBioController.text,
                       "shop_description": shopDescriptionController.text,
                       "username": "",
                       "password": "",
-                      "operation_hours": "",
+                      "open_hour": "",
+                      "close_hour": "",
                       "isOpen": "",
                       "image": "",
                       "email": emailController.text,

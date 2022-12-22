@@ -416,9 +416,18 @@ class _UserCheckOutPageState extends State<UserCheckOutPage> {
                                                       snapshot.data!.docs[i]
                                                               ['cart_code'] ==
                                                           "1") {
+                                                    //update the time
+                                                    DateTime now =
+                                                        DateTime.now();
+
                                                     snapshot
                                                         .data!.docs[i].reference
                                                         .update({
+                                                      "day": "${now.day}",
+                                                      "month": "${now.month}",
+                                                      "year": "${now.year}",
+                                                      "time":
+                                                          "${now.hour}:${now.minute}",
                                                       "order_number":
                                                           orderNumber
                                                               .toString(),

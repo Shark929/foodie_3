@@ -22,6 +22,7 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
             if (snapshot.data!.docs[i]['username'] == widget.username &&
                 snapshot.data!.docs[i]['cart_code'] != "1" &&
                 snapshot.data!.docs[i]['cart_code'] != "0" &&
+                snapshot.data!.docs[i]['cart_code'] != "5" &&
                 snapshot.data!.docs[i]['cart_code'] != "6") {
               return SingleChildScrollView(
                 child: Center(
@@ -149,7 +150,26 @@ class _UserOrderScreenState extends State<UserOrderScreen> {
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   if (snapshot.data!.docs[index]['username'] ==
-                                      widget.username) {
+                                              widget.username &&
+                                          snapshot.data!.docs[index]
+                                                  ['cart_code'] ==
+                                              "2" ||
+                                      snapshot.data!.docs[index]['username'] ==
+                                              widget.username &&
+                                          snapshot.data!.docs[index]
+                                                  ['cart_code'] ==
+                                              "3" ||
+                                      snapshot.data!.docs[index]['username'] ==
+                                              widget.username &&
+                                          snapshot.data!.docs[index]
+                                                  ['cart_code'] ==
+                                              "4" &&
+                                          snapshot.data!.docs[index]
+                                                  ['username'] ==
+                                              widget.username &&
+                                          snapshot.data!.docs[index]
+                                                  ['cart_code'] ==
+                                              "5") {
                                     return ListTile(
                                       title: Text(snapshot.data!.docs[index]
                                           ['item_name']),

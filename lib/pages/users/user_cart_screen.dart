@@ -167,7 +167,7 @@ class _UserCartScreenState extends State<UserCartScreen> {
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("No Order at the moment")],
+                children: const [Text("No Order at the moment")],
               ),
             ),
           );

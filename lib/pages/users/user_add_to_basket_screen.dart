@@ -267,8 +267,15 @@ class _AddToBasketScreenState extends State<AddToBasketScreen> {
                         print("base price: $price");
                         totalAmount = (price + additionPrice) * quantity;
                         print("totalAmount: $totalAmount");
+                        DateTime now = DateTime.now();
+                        // String time =
+                        //     "${now.day} ${now.month} ${now.year} at ${now.hour}:${now.minute}";
                         FirebaseFirestore.instance.collection("Cart").add({
                           "order_number": "",
+                          "time": "${now.hour}:${now.minute}",
+                          "day": "${now.day}",
+                          "month": "${now.month}",
+                          "year": "${now.year}",
                           "username": widget.username,
                           "total_price": totalAmount.toStringAsFixed(2),
                           "image": widget.foodData['image'],
@@ -280,7 +287,7 @@ class _AddToBasketScreenState extends State<AddToBasketScreen> {
                           "pick_up": "",
                           "cart_code": "1",
                           "reason": "",
-                          "dine_in_code": "1", // 1-dinein, 2-takeaaway
+                          "dine_in_code": "1", // 1-dinein, 0-takeaaway
                           /**
                            * cart code
                            * 0 - cancelled
@@ -292,7 +299,6 @@ class _AddToBasketScreenState extends State<AddToBasketScreen> {
                            * 6 - vendor cancel order
                            */
                         }).then((value) {
-                          print(value.collection("Cart").doc());
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(

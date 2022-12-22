@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodie_3/components/button_component1.dart';
 import 'package:foodie_3/components/text_input_component.dart';
 import 'package:foodie_3/constants/constant.dart';
+import 'package:foodie_3/pages/vendors/vendor_change_password_screen.dart';
 import 'package:foodie_3/pages/vendors/vendor_home_screen.dart';
 
 class VendorLoginScreen extends StatefulWidget {
@@ -96,7 +97,29 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                               if (snapshot.data!.docs[i]['username'] ==
                                       usernameController.text &&
                                   snapshot.data!.docs[i]['password'] ==
-                                      passwordController.text) {
+                                      passwordController.text &&
+                                  snapshot.data!.docs[i]['is_first_time'] ==
+                                      "1") {
+                                //first time login change password
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            VendorFirstTimeLogin(
+                                              vendorUsername: snapshot
+                                                  .data!.docs[i]['username'],
+                                            )),
+                                    (route) => false);
+                                /**
+                                 * fjhZ1qUQpibibXG
+                                 * hgTowVEL
+                                 */
+                              } else if (snapshot.data!.docs[i]['username'] ==
+                                      usernameController.text &&
+                                  snapshot.data!.docs[i]['password'] ==
+                                      passwordController.text &&
+                                  snapshot.data!.docs[i]['is_first_time'] ==
+                                      "2") {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
@@ -105,32 +128,7 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                                                   .data!.docs[i]['username'],
                                             )),
                                     (route) => false);
-                              } else {
-                                //ZKZJQOUYcidd96b
-                                //dSfzIapI
-                                // return showDialog(
-                                //     context: context,
-                                //     builder: (context) => Dialog(
-                                //           child: Container(
-                                //               width: MediaQuery.of(context)
-                                //                   .size
-                                //                   .width,
-                                //               height: 50,
-                                //               alignment: Alignment.center,
-                                //               decoration: BoxDecoration(
-                                //                   borderRadius:
-                                //                       BorderRadius.circular(8),
-                                //                   color: const Color.fromARGB(
-                                //                       255, 238, 148, 141)),
-                                //               child: const Text(
-                                //                 "Incorrect username or password",
-                                //                 style: TextStyle(
-                                //                     color: Colors.white,
-                                //                     fontWeight:
-                                //                         FontWeight.w600),
-                                //               )),
-                                //         ));
-                              }
+                              } else {}
                             }
                           }
                         });

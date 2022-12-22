@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_3/components/button_component1.dart';
 import 'package:foodie_3/pages/choose_register_role.dart';
+import 'package:foodie_3/pages/vendors/vendor_edit_profile_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -70,79 +71,159 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           snapshot.data!.docs[i]['image'] == ""
-                              ? Stack(
+                              ? Column(
                                   children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/user.png"))),
-                                    ),
                                     InkWell(
                                       onTap: () {
                                         pickImage();
+                                        snapshot.data!.docs[i].reference
+                                            .update({
+                                          "image": imageUrl,
+                                        });
                                       },
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.grey,
-                                            shape: BoxShape.circle),
-                                        child: const Icon(Icons.add),
+                                      child: Image.asset(
+                                        "assets/user.png",
+                                        width: 100,
+                                        height: 100,
+                                        color: Colors.black,
                                       ),
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    const Text("Edit image")
                                   ],
                                 )
-                              : Stack(children: [
-                                  Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: NetworkImage(imageUrl != ""
-                                                ? imageUrl
-                                                : snapshot.data!.docs[i]
-                                                    ['image']),
-                                            fit: BoxFit.cover)),
-                                  ),
-                                  imageUrl == ""
-                                      ? const SizedBox()
-                                      : InkWell(
-                                          onTap: () {
-                                            snapshot.data!.docs[i].reference
-                                                .update({
-                                              "image": imageUrl,
-                                            });
-                                            setState(() {
-                                              imageUrl = "";
-                                            });
-                                          },
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            alignment: Alignment.center,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.grey,
-                                                shape: BoxShape.circle),
-                                            child: const Icon(Icons.check),
-                                          ),
-                                        )
-                                ]),
+                              : Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        pickImage();
+                                        snapshot.data!.docs[i].reference
+                                            .update({
+                                          "image": imageUrl,
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(snapshot
+                                                    .data!.docs[i]['image']),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                    const Text("Edit image"),
+                                  ],
+                                ),
                           const SizedBox(
-                            height: 20,
+                            width: 20,
                           ),
-                          Text(
-                            snapshot.data!.docs[i]['username'],
-                            style: const TextStyle(fontSize: 24),
-                          ),
+                          Column(
+                            children: [
+                              Text(
+                                widget.vendorUsername,
+                                style: const TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          )
                         ],
                       )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          snapshot.data!.docs[i]['isOpen'] == "1"
+                              ? "Open"
+                              : "Closed",
+                          style: TextStyle(
+                            color: snapshot.data!.docs[i]['isOpen'] == "1"
+                                ? Colors.green
+                                : Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              //update isOpen to 1 or 0
+                              if (snapshot.data!.docs[i]['isOpen'] == "1") {
+                                snapshot.data!.docs[i].reference
+                                    .update({"isOpen": "0"});
+                              } else {
+                                snapshot.data!.docs[i].reference
+                                    .update({"isOpen": "1"});
+                              }
+                            },
+                            child: const Text("Tap to change")),
+                        const Spacer(),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          VendorEditProfileScreen(
+                                            vendorUsername:
+                                                widget.vendorUsername,
+                                          )));
+                            },
+                            child: const Text("Edit profile    >")),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Open hour",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(snapshot.data!.docs[i]['open_hour'] == ""
+                            ? "Not yet set"
+                            : snapshot.data!.docs[i]['open_hour'])
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Close hour",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(snapshot.data!.docs[i]['close_hour'] == ""
+                            ? "Not yet set"
+                            : snapshot.data!.docs[i]['close_hour'])
+                      ],
+                    ),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -182,7 +263,7 @@ class _VendorProfileScreenState extends State<VendorProfileScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 200,
+                    height: 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),

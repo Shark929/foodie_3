@@ -34,76 +34,51 @@ class _VendorForgotPasswordState extends State<VendorForgotPassword> {
             const SizedBox(
               height: 20,
             ),
-            vendorIsExisted
-                ? TextInputComponent(
-                    controller: passwordController,
-                    hintText: "Enter your new password",
-                    obscureText: true,
-                    validator: false,
-                    validatorText: "",
-                  )
-                : TextInputComponent(
-                    controller: emailController,
-                    hintText: "Enter your email",
-                    obscureText: false,
-                    validator: false,
-                    validatorText: "",
-                  ),
+            TextInputComponent(
+              controller: emailController,
+              hintText: "Enter your email",
+              obscureText: false,
+              validator: false,
+              validatorText: "",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextInputComponent(
+              controller: passwordController,
+              hintText: "Enter your new password",
+              obscureText: true,
+              validator: false,
+              validatorText: "",
+            ),
             const SizedBox(
               height: 20,
             ),
             StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection("Vendor").snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                    if (snapshot.data!.docs[i]['email'] ==
-                        emailController.text) {
-                      return ButtonComponent1(
-                        buttonTitle: "Enter",
+                stream:
+                    FirebaseFirestore.instance.collection("Vendor").snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ButtonComponent1(
+                        buttonTitle: "Update",
                         buttonFunction: () {
-                          setState(() {
-                            vendorIsExisted = true;
-                          });
-                        },
-                      );
-                    }
-                  }
-                }
-                return const SizedBox();
-              },
-            ),
-            vendorIsExisted == true
-                ? StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Vendor")
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                          if (snapshot.data!.docs[i]['email'] ==
-                              emailController.text) {
-                            return ButtonComponent1(
-                              buttonTitle: "Confirm",
-                              buttonFunction: () {
-                                snapshot.data!.docs[i].reference.update({
-                                  "password": passwordController.text,
-                                }).then((value) => Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const VendorLoginScreen()),
-                                    (route) => false));
-                              },
-                            );
+                          for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                            if (snapshot.data!.docs[i]['email'] ==
+                                emailController.text) {
+                              snapshot.data!.docs[i].reference.update({
+                                "password": passwordController.text
+                              }).then((value) => Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const VendorLoginScreen()),
+                                  (route) => false));
+                            }
                           }
-                        }
-                      }
-                      return const SizedBox();
-                    },
-                  )
-                : const SizedBox(),
+                        });
+                  }
+                  return const SizedBox();
+                }),
           ],
         ),
       )),

@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie_3/pages/users/user_view_vendor_screen.dart';
+import 'package:foodie_3/pages/users/user_add_to_basket_screen.dart';
 
-class UserLocationScreen extends StatefulWidget {
-  final String location;
-  const UserLocationScreen({super.key, required this.location});
+class UserCategoryScreen extends StatefulWidget {
+  final String username;
+  final String category;
+  const UserCategoryScreen(
+      {super.key, required this.category, required this.username});
 
   @override
-  State<UserLocationScreen> createState() => _UserLocationScreenState();
+  State<UserCategoryScreen> createState() => _UserCategoryScreenState();
 }
 
-class _UserLocationScreenState extends State<UserLocationScreen> {
+class _UserCategoryScreenState extends State<UserCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.location)),
+      appBar: AppBar(title: Text(widget.category)),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
@@ -25,9 +27,8 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
                 height: 20,
               ),
               StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("Vendor")
-                      .snapshots(),
+                  stream:
+                      FirebaseFirestore.instance.collection("Menu").snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -35,21 +36,19 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
                           shrinkWrap: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            if (snapshot.data!.docs[index]['location'] ==
-                                widget.location) {
+                            if (snapshot.data!.docs[index]['category'] ==
+                                widget.category) {
                               return InkWell(
                                 onTap: () {
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          UserViewVendorScreen(
-                                        username: snapshot.data!.docs[index]
-                                            ['username'],
-                                        data: snapshot.data!.docs[index],
-                                      ),
-                                    ),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddToBasketScreen(
+                                                username: widget.username,
+                                                foodData:
+                                                    snapshot.data!.docs[index],
+                                              )));
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(bottom: 16),
@@ -76,15 +75,17 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
                                         width: 8,
                                       ),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const SizedBox(
                                             height: 20,
                                           ),
                                           SizedBox(
-                                            width: 100,
+                                            width: 150,
                                             child: Text(
                                               snapshot.data!.docs[index]
-                                                  ['shop_name'],
+                                                  ['item_name'],
                                               style: const TextStyle(
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -99,8 +100,7 @@ class _UserLocationScreenState extends State<UserLocationScreen> {
                                           SizedBox(
                                             width: 100,
                                             child: Text(
-                                              snapshot.data!.docs[index]
-                                                  ['location'],
+                                              "RM ${snapshot.data!.docs[index]['price']}",
                                               style: const TextStyle(
                                                   overflow:
                                                       TextOverflow.ellipsis,

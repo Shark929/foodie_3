@@ -5,7 +5,6 @@ import 'package:foodie_3/components/text_input_component.dart';
 import 'package:foodie_3/constants/constant.dart';
 import 'package:foodie_3/pages/users/user_home_screen.dart';
 import 'package:foodie_3/pages/users/user_register_screen.dart';
-import 'package:foodie_3/pages/vendors/vendor_home_screen.dart';
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});
@@ -25,7 +24,6 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override

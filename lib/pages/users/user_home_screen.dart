@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_3/constants/constant.dart';
 import 'package:foodie_3/pages/users/user_cart_screen.dart';
+import 'package:foodie_3/pages/users/user_chatroom_screen.dart';
 import 'package:foodie_3/pages/users/user_home_component.dart';
 import 'package:foodie_3/pages/users/user_order_screen.dart';
 import 'package:foodie_3/pages/users/user_profile_screen.dart';
@@ -48,6 +49,34 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           "Foodie",
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          Image.asset(
+            "assets/notification.png",
+            width: 25,
+            height: 25,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserChatRoomScreen(
+                            username: widget.username,
+                          )));
+            },
+            child: Image.asset(
+              "assets/chat.png",
+              width: 25,
+              height: 25,
+            ),
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+        ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

@@ -271,6 +271,7 @@ class _AddToBasketScreenState extends State<AddToBasketScreen> {
                         // String time =
                         //     "${now.day} ${now.month} ${now.year} at ${now.hour}:${now.minute}";
                         FirebaseFirestore.instance.collection("Cart").add({
+                          "promotion_code": "",
                           "order_number": "",
                           "time": "${now.hour}:${now.minute}",
                           "day": "${now.day}",

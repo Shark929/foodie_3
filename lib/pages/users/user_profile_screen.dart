@@ -218,7 +218,41 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             username: widget.username,
                           )));
             },
-            child: Container(
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/wallet.png",
+                    width: 20,
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Text("Foodie wallet"),
+                  const Spacer(),
+                  const Text(
+                    ">",
+                    style: TextStyle(fontSize: 18),
+                  )
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserWalletScreen(
+                            username: widget.username,
+                          )));
+            },
+            child: SizedBox(
               height: 30,
               child: Row(
                 children: [

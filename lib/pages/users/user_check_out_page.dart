@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_3/components/button_component1.dart';
+import 'package:foodie_3/pages/users/user_add_promotion_screen.dart';
 import 'package:foodie_3/pages/users/user_home_screen.dart';
 import 'package:foodie_3/pages/users/user_wallet_screen.dart';
 
@@ -17,6 +18,7 @@ class UserCheckOutPage extends StatefulWidget {
 class _UserCheckOutPageState extends State<UserCheckOutPage> {
   String isDineIn = "1";
   String isTakeAways = "0";
+  double discountPercentage = 0.0;
   TextEditingController pickUpController = TextEditingController();
 
   @override
@@ -275,64 +277,112 @@ class _UserCheckOutPageState extends State<UserCheckOutPage> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
-                                    alignment: Alignment.center,
-                                    child: Row(children: [
-                                      Image.asset(
-                                        "assets/wallet.png",
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        UserWalletScreen(
-                                                            username: widget
-                                                                .username)));
-                                          },
-                                          child: const Text("Foodie wallet")),
-                                      const Spacer(),
-                                      const Text(
-                                        ">",
-                                        style: TextStyle(fontSize: 16),
-                                      )
-                                    ]),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserWalletScreen(
+                                                      username:
+                                                          widget.username)));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      alignment: Alignment.center,
+                                      child: Row(children: [
+                                        Image.asset(
+                                          "assets/wallet.png",
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        const Text("Foodie wallet"),
+                                        const Spacer(),
+                                        const Text(
+                                          ">",
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      ]),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
-                                    alignment: Alignment.center,
-                                    child: Row(children: [
-                                      Image.asset(
-                                        "assets/coupons.png",
-                                        width: 25,
-                                        height: 25,
-                                        color: const Color.fromARGB(
-                                            255, 207, 155, 1),
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      const Text("Use Offers to get discounts"),
-                                      const Spacer(),
-                                      const Text(
-                                        ">",
-                                        style: TextStyle(fontSize: 16),
-                                      )
-                                    ]),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PromotionScreen(
+                                                    username: widget.username),
+                                          ));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      alignment: Alignment.center,
+                                      child: Row(children: [
+                                        Image.asset(
+                                          "assets/coupons.png",
+                                          width: 25,
+                                          height: 25,
+                                          color: const Color.fromARGB(
+                                              255, 207, 155, 1),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        const Text(
+                                            "Use Offers to get discounts"),
+                                        const Spacer(),
+                                        const Text(
+                                          ">",
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      ]),
+                                    ),
                                   ),
+                                  snapshot.data!.docs[i]['promotion_code'] ==
+                                              "" &&
+                                          snapshot.data!.docs[i]['username'] ==
+                                              widget.username
+                                      ? const SizedBox()
+                                      : StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection("Promotion")
+                                              .snapshots(),
+                                          builder: (context, snapshot11) {
+                                            if (snapshot11.hasData) {
+                                              for (int j = 0;
+                                                  j <
+                                                      snapshot11
+                                                          .data!.docs.length;
+                                                  j++) {
+                                                if (snapshot.data!.docs[i]
+                                                        ['promotion_code'] ==
+                                                    snapshot11.data!.docs[j]
+                                                        ['code']) {
+                                                  String result1 = snapshot11
+                                                      .data!.docs[j]['code']
+                                                      .replaceAll(
+                                                          RegExp('[^A-Za-z]'),
+                                                          '');
 
+                                                  discountPercentage =
+                                                      double.parse(result1) /
+                                                          100;
+
+                                                  print(discountPercentage);
+                                                }
+                                              }
+                                            }
+                                            return const SizedBox();
+                                          }),
                                   // Do not delete this
                                   const SizedBox(
                                     height: 160,
